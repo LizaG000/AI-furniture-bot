@@ -8,6 +8,7 @@ from fastapi import Request
 from backend.config import Config
 from backend.config import ApiConfig
 from backend.config import DatabaseConfig
+from backend.usecase.users.create import CreateUserUsecase
 
 
 class MainProvider(Provider):
@@ -26,5 +27,6 @@ class MainProvider(Provider):
     _request = from_context(provides=Request, scope=Scope.REQUEST)
 
     _get_usecases = provide_all(
+        CreateUserUsecase,
     )
 
