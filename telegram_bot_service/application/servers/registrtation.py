@@ -4,6 +4,8 @@ from telegram_bot_service.application.schemas.UserSchemas import CreateUser
 from telegram_bot_service.application.servers.validation import validation_str, validation_phone, validation_email
 user = CreateUser()
 
+# Сохраниить в json потом кидать запрос
+# гугл скулер
 
 def registration_first_name(message):
     first_name = message.text
@@ -67,6 +69,17 @@ def registration_email(message):
         user.email = email
         try:
             requests.post('http://localhost:8000/api/user', data=user)
+            bot.send_message(message.chat.id, f'Поздравляю {user.first_name}! Вы успешно зарегистрированы!')
         except:
             bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
-        bot.send_message(message.chat.id, f'Поздравляю {user.first_name}! Вы успешно зарегистрированы!')
+
+def registration_(message):
+    email = message.text
+    email = email.lower()
+    email = validation_email(email)
+    if not email:
+        bot.send_message(message.chat.id, 'Упс. Кажется вы нажали куда-то не туда.\nВведите пожалуйста вашу почту.')
+        bot.register_next_step_handler(message, registration_email)
+    else:
+        user.email = email
+            bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
