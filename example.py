@@ -23,3 +23,4 @@ print(synaptic_weights)
 new_input = np.array([[0,0,1]])
 
 print(sigmoid(np.dot(new_input, synaptic_weights)))
+
