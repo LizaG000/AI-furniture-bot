@@ -12,6 +12,6 @@ RUN poetry config virtualenvs.create false && poetry install --no-interaction --
 
 COPY backend/src /app/src
 
-# CMD ["sh", "-c", "uvicorn src.main.web:app --host $USER_MICRO_HOST --port $USER_MICRO_PORT --reload"]
+CMD ["sh", "-c", "uvicorn src.main.web:app --host $USER_MICRO_HOST --port $USER_MICRO_PORT --reload"]
 
-CMD ["uvicorn", "src.main.web:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]
+# CMD ["uvicorn", "src.main.web:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]
