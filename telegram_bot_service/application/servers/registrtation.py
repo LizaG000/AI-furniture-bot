@@ -1,13 +1,18 @@
-import requests
-from telegram_bot_service.main import bot
-from telegram_bot_service.application.schemas.UserSchemas import CreateUser
-from telegram_bot_service.application.servers.validation import validation_str, validation_phone, validation_email
+import aiohttp
+import json
+import asyncio
+
+from telebot.asyncio_filters import StateFilter
+
+from main import bot
+from application.schemas.UserSchemas import CreateUser
+from application.servers.validation import validation_str, validation_phone, validation_email
 user = CreateUser()
 
 # Сохраниить в json потом кидать запрос
 # гугл скулер
 
-def registration_first_name(message):
+async def registration_first_name(message):
     first_name = message.text
     first_name = first_name.lower()
     first_name = validation_str(first_name)
@@ -20,7 +25,7 @@ def registration_first_name(message):
         bot.send_message(message.chat.id, 'Введите ваше отчество или слово \"Нет\", если у вас нет отчества.')
         bot.register_next_step_handler(message, registration_middle_name)
 
-def registration_middle_name(message):
+async def registration_middle_name(message):
     middle_name = message.text
     middle_name = middle_name.lower()
     middle_name = validation_str(middle_name)
@@ -35,7 +40,7 @@ def registration_middle_name(message):
         bot.send_message(message.chat.id, 'Введите вашу фамилию.')
         bot.register_next_step_handler(message, registration_last_name)
 
-def registration_last_name(message):
+async def registration_last_name(message):
     last_name = message.text
     last_name = last_name.lower()
     last_name = validation_str(last_name)
@@ -47,7 +52,7 @@ def registration_last_name(message):
         bot.send_message(message.chat.id, 'Введите ваш номер телефона в формате 81231231212.')
         bot.register_next_step_handler(message, registration_phone)
 
-def registration_phone(message):
+async def registration_phone(message):
     phone = message.text
     phone = validation_phone(phone)
     if not phone:
@@ -58,7 +63,7 @@ def registration_phone(message):
         bot.send_message(message.chat.id, 'Введите вашу почту.')
         bot.register_next_step_handler(message, registration_email)
         
-def registration_email(message):
+async def registration_email(message):
     email = message.text
     email = email.lower()
     email = validation_email(email)
@@ -68,18 +73,8 @@ def registration_email(message):
     else:
         user.email = email
         try:
-            requests.post('http://localhost:8000/api/user', data=user)
+            async with aiohttp.ClientSession() as session:
+                response = await session.post('http://localhost:8000/api/user', data=json.dump(user.__dict__))
             bot.send_message(message.chat.id, f'Поздравляю {user.first_name}! Вы успешно зарегистрированы!')
         except:
-            bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
-
-def registration_(message):
-    email = message.text
-    email = email.lower()
-    email = validation_email(email)
-    if not email:
-        bot.send_message(message.chat.id, 'Упс. Кажется вы нажали куда-то не туда.\nВведите пожалуйста вашу почту.')
-        bot.register_next_step_handler(message, registration_email)
-    else:
-        user.email = email
             bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
