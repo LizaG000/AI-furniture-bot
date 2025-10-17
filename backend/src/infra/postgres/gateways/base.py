@@ -8,6 +8,7 @@ from src.infra.postgres.tables import BaseDBModel
 from sqlalchemy import Select
 from sqlalchemy.sql.dml import ReturningInsert, ReturningUpdate
 from typing import TypeVar, Generic, Type
+from src.application.errors import DatabaseCreateError, DatabaseDeleteError, DatabaseUpdateError, NotFoundError
 
 TAppliable = Select | ReturningInsert | ReturningUpdate
 
