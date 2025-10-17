@@ -1,5 +1,6 @@
 # from application.servers.registrtation import registration_first_name
 import aiohttp
+import json
 from telebot.asyncio_storage import StateMemoryStorage
 from telebot.handler_backends import State, StatesGroup
 from application.schemas.UserSchemas import CreateUser
@@ -93,7 +94,8 @@ def registration_handlers(bot):
             user.email = email
             try:
                 async with aiohttp.ClientSession() as session:
-                    response = await session.post('http://localhost:8000/api/user', data=json.dump(user.__dict__))
+                    data = json.dumps(user.__dict__)
+                    await session.post('http://future-backend.tw1.ru:8003/api/user', data=data)
                 await bot.send_message(message.chat.id, f'Поздравляю {user.first_name}! Вы успешно зарегистрированы!')
             except:
                 await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
