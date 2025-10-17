@@ -3,6 +3,7 @@ from datetime import datetime
 from sqlalchemy import UUID
 from sqlalchemy import String
 from sqlalchemy import Integer
+from sqlalchemy import BigInteger
 from sqlalchemy import DateTime
 from sqlalchemy import ARRAY
 from sqlalchemy import Float, ForeignKey
@@ -51,7 +52,7 @@ class BaseDBModel(DeclarativeBase):
 class UsersModel(BaseDBModel):
     __tablename__ = 'users'
     id: Mapped[int] = mapped_column(
-        Integer,
+        BigInteger,
         primary_key=True,
         nullable=False
     )
@@ -71,7 +72,7 @@ class UsersModel(BaseDBModel):
         default=None
     )
     phone: Mapped[int] = mapped_column(
-        Integer,
+        BigInteger,
         nullable=False
     )
     email: Mapped[str] = mapped_column(
@@ -194,7 +195,7 @@ class BasketsModel(BaseDBModel):
     __tablename__ = 'baskets'
     id: Mapped[uuid_pk]
     id_user: Mapped[int] = mapped_column(
-        Integer,
+        BigInteger,
         ForeignKey('db_schema.users.id'),
         nullable=False
     )
@@ -215,7 +216,7 @@ class AddressesModel(BaseDBModel):
     __tablename__ = 'addresses'
     id: Mapped[uuid_pk]
     id_user: Mapped[int] = mapped_column(
-        Integer,
+        BigInteger,
         ForeignKey('db_schema.users.id'),
         nullable=False
     )
@@ -254,7 +255,7 @@ class OrdersModel(BaseDBModel):
     __tablename__ = 'orders'
     id: Mapped[uuid_pk]
     id_user: Mapped[int] = mapped_column(
-        Integer,
+        BigInteger,
         ForeignKey('db_schema.users.id'),
         nullable=False
     )
@@ -300,7 +301,7 @@ class FavoritesModel(BaseDBModel):
     __tablename__ = 'favorites'
     id: Mapped[uuid_pk]
     id_user: Mapped[int] = mapped_column(
-        Integer,
+        BigInteger,
         ForeignKey('db_schema.users.id'),
         nullable=False
     )
