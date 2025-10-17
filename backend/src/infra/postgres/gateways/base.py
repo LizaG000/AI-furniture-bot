@@ -1,7 +1,7 @@
 from uuid import UUID
 from dataclasses import dataclass
 from sqlalchemy import insert, delete, update
-
+from loguru import logger
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.infra.postgres.tables import BaseDBModel
@@ -57,10 +57,16 @@ class CreateGate(Generic[TTable, TCreate], PostgresGateway):
 
     async def __call__(self, entity: TCreate) -> None:
         stmt = insert(self.table).values(**entity.model_dump())
+        logger.info(3)
+        logger.info(1)
+        await self.session.execute(stmt)
+        logger.info(2)
         try:
+            logger.info(1)
             await self.session.execute(stmt)
+            logger.info(2)
         except:
-         raise DatabaseCreateError(self.table)
+            raise DatabaseCreateError(self.table)
 
 @dataclass(slots=True, kw_only=True)
 class CreateReturningGate(Generic[TTable, TCreate, TEntity], PostgresGateway):
