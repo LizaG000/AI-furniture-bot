@@ -57,16 +57,16 @@ class CreateGate(Generic[TTable, TCreate], PostgresGateway):
 
     async def __call__(self, entity: TCreate) -> None:
         stmt = insert(self.table).values(**entity.model_dump())
-        # logger.info(3)
-        # logger.info(1)
-        # await self.session.execute(stmt)
-        # logger.info(2)
-        try:
-            logger.info(1)
-            await self.session.execute(stmt)
-            logger.info(2)
-        except:
-            raise DatabaseCreateError(self.table)
+        logger.info(3)
+        logger.info(1)
+        await self.session.execute(stmt)
+        logger.info(2)
+        # try:
+        #     logger.info(1)
+        #     await self.session.execute(stmt)
+        #     logger.info(2)
+        # except:
+        #     raise DatabaseCreateError(self.table)
 
 @dataclass(slots=True, kw_only=True)
 class CreateReturningGate(Generic[TTable, TCreate, TEntity], PostgresGateway):
