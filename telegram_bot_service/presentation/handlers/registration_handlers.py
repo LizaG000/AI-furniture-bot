@@ -1,6 +1,4 @@
-# from application.servers.registrtation import registration_first_name
 import aiohttp
-import json
 from telebot.asyncio_storage import StateMemoryStorage
 from telebot.handler_backends import State, StatesGroup
 from application.schemas.UserSchemas import CreateUser
@@ -92,20 +90,17 @@ def registration_handlers(bot):
             await bot.set_state(message.from_user.id, Registration.email, message.chat.id)
         else:
             user.email = email
-            async with aiohttp.ClientSession() as session:
-                data = user.__dict__
-                print(data)
-                result = await session.post('http://future-backend.tw1.ru:8003/api/user', json=data)
-                print(result)
-                print(await result.text())
-                await bot.send_message(message.chat.id, f'Поздравляю {result.first_name}! Вы успешно зарегистрированы!')
-            # try:
-            #     async with aiohttp.ClientSession() as session:
-            #         data = user.model_dump()
-            #         print(data)
-            #         result = await session.post('http://future-backend.tw1.ru:8003/api/user', json=data)
-            #         print(result)
-            #         print(result.text)
-            #         await bot.send_message(message.chat.id, f'Поздравляю {result.first_name}! Вы успешно зарегистрированы!')
-            # except:
-            #     await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
+        #     async with aiohttp.ClientSession() as session:
+        #         data = user.__dict__
+        #         print(data)
+        #         result = await session.post('http://future-backend.tw1.ru:8003/api/user', json=data)
+        #         print(result)
+        #         print(await result.text())
+        #         await bot.send_message(message.chat.id, f'Поздравляю {result.first_name}! Вы успешно зарегистрированы!')
+            try:
+                async with aiohttp.ClientSession() as session:
+                    data = user.__dict__
+                    result = await session.post('http://future-backend.tw1.ru:8003/api/user', json=data)
+                    await bot.send_message(message.chat.id, f'Поздравляю {user.first_name}! Вы успешно зарегистрированы!')
+            except:
+                await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
