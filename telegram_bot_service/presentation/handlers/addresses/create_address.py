@@ -98,16 +98,57 @@ def create_address_handlers(bot):
             await bot.set_state(message.from_user.id, Address.quadrature_number, message.chat.id)
         else:
             address.quadrature_number = quadrature_number[0].upper() + quadrature_number[1:]
-            try:
-                async with aiohttp.ClientSession() as session:
-                    data = address.__dict__
-                    result = await session.post('http://future-backend.tw1.ru:8003/api/address', json=data)
-                    if result.status == 200:
-                        await bot.send_message(message.chat.id, f'{await result.text()}\nУспешно добавден!')
-                    else:
-                        await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')()
-            except:
-                await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')()
+            await bot.send_message(message.chat.id, 'Введите почтовый код.')
+            await bot.set_state(message.from_user.id, Address.postal_code, message.chat.id)
+            
+
+    @bot.message_handler(state=Address.postal_code)
+    async def address_postal_code(message):
+        print(1)
+        postal_code = int(message.text)
+        print(1)
+        address.postal_code = postal_code
+        print(1)
+        async with aiohttp.ClientSession() as session:
+            print(1)
+            data = address.__dict__
+            print(2)
+            result = await session.post('http://future-backend.tw1.ru:8003/api/address', json=data)
+            print(3)
+            print(result)
+            print(4)
+            print(await result.text())
+            print(5)
+            if result.status == 200:
+                await bot.send_message(message.chat.id, f'{await result.text()}\nУспешно добавден!')
+            else:
+             await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
+        try:
+            async with aiohttp.ClientSession() as session:
+                data = address.__dict__
+                result = await session.post('http://future-backend.tw1.ru:8003/api/address', json=data)
+                if result.status == 200:
+                    await bot.send_message(message.chat.id, f'{await result.text()}\nУспешно добавден!')
+                else:
+                 await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
+        except:
+            await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
+        # try:
+        #     postal_code = int(message.text)
+        #     address.postal_code = postal_code
+        #     try:
+        #         async with aiohttp.ClientSession() as session:
+        #             data = address.__dict__
+        #             result = await session.post('http://future-backend.tw1.ru:8003/api/address', json=data)
+        #             if result.status == 200:
+        #                 await bot.send_message(message.chat.id, f'{await result.text()}\nУспешно добавден!')
+        #             else:
+        #                 await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
+        #     except:
+        #         await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
+        # except:
+        #     await bot.send_message(message.chat.id, 'Упс. Кажется вы нажали куда-то не туда.\nВведите номер квартиры.')
+        #     await bot.set_state(message.from_user.id, Address.postal_code, message.chat.id)
             
 
 
