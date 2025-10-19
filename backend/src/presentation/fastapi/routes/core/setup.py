@@ -11,7 +11,7 @@ def setup_core_router() -> APIRouter:
     router = APIRouter(route_class=DishkaRoute)
 
     router.include_router(prefix='/user', router=USER_ROUTER)
-    router.include_router(prefix='/user', router=ADDRESSES_ROUTER)
+    router.include_router(prefix='/address', router=ADDRESSES_ROUTER)
     router.include_router(prefix='/categories', router=CATEGORIES_ROUTER)
     router.include_router(prefix='/materials', router=MATERIALS_ROUTER)
     router.include_router(prefix='/colors', router=COLORS_ROUTER)

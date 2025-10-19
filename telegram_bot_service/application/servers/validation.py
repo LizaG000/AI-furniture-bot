@@ -6,6 +6,12 @@ def validation_str(string: str) -> tuple[str, bool]:
         return string
     return False
 
+def validation_str_num(string: str) -> tuple[str, bool]:
+    pattern = r"^[a-zа-я0-9]{1,20}( [a-zа-я0-9]{1,20}){0,3}$"
+    if re.fullmatch(pattern, string):
+        return string
+    return False
+
 def validation_phone(phone: str) -> tuple[str, bool]:
     pattern = r"^8[0-9]{10}$"
     if re.fullmatch(pattern, phone):
