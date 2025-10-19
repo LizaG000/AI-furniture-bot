@@ -17,7 +17,7 @@ TTable = TypeVar('TTable', bound=BaseDBModel)
 TEntity = TypeVar('TEntity', bound=BaseModel)
 TCreate = TypeVar('TCreate', bound=BaseModel)
 TUpdate = TypeVar('TUpdate', bound=BaseModel)
-TEntityId = TypeVar('TEntityId', bound=UUID)
+TEntityId = TypeVar('TEntityId', bound=UUID|int)
 
 @dataclass(slots=True, kw_only=True)
 class PostgresGateway:

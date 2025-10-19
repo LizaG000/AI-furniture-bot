@@ -1,4 +1,20 @@
 from dataclasses import dataclass
+from uuid import UUID
+from datetime import datetime
+
+@dataclass
+class AddressSchema():
+    id: UUID
+    id_user: int
+    country: str
+    region: str
+    city: str
+    street: str
+    house_number: str
+    quadrature_number: str
+    postal_code: int
+    created_at: datetime
+    updated_at: datetime
 
 @dataclass
 class CreateAddressSchema():
