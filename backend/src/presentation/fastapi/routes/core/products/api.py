@@ -2,7 +2,7 @@ from typing import List
 from fastapi import APIRouter, status
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
 
-from src.application.schemas.product_schema import ProductBatchCreateSchema, ProductCreateSchema
+from src.application.schemas.product import ProductBatchCreateSchema, ProductCreateSchema
 from src.infra.postgres.tables import ProductsModel, ColorsModel, MaterialsModel, ProductsColorsModel, ProductsMaterialsModel
 from src.infra.postgres.gateways.base import CreateReturningGate
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -28,8 +28,9 @@ async def create_products_batch(
             height=p.height,
             width=p.width,
             id_category=p.id_category,
-            images=p.photos,
+            images=p.images,
         )
+        #переделать в юзкез создания
         session.add(product)
         await session.flush()  
 

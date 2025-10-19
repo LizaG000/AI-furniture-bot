@@ -20,10 +20,7 @@ class PatternSchema(BaseModel):
     updated_at: datetime
 
 class CreatePatternSchema(BaseModel):
-    id: UUID
     name: str
-    created_at: datetime
-    updated_at: datetime
 
 
 class PatternProductSchema(BaseModel):
@@ -36,5 +33,11 @@ class PatternProductSchema(BaseModel):
 class CreatePatternProductSchema(BaseModel):
     id_product: UUID
     id_pattern: UUID
-    created_at: datetime
-    updated_at: datetime
+
+class CreateColors(BaseModel):
+    id_product: UUID
+    id_color: UUID
+
+class CreateMaterials(BaseModel):
+    id_product: UUID
+    id_material: UUID

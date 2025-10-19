@@ -17,7 +17,8 @@ TTable = TypeVar('TTable', bound=BaseDBModel)
 TEntity = TypeVar('TEntity', bound=BaseModel)
 TCreate = TypeVar('TCreate', bound=BaseModel)
 TUpdate = TypeVar('TUpdate', bound=BaseModel)
-TEntityId = TypeVar('TEntityId', bound=UUID)
+TEntityId = TypeVar('TEntityId', bound=UUID|int)
+TEntityName = TypeVar('TEntityName', bound=str)
 
 @dataclass(slots=True, kw_only=True)
 class PostgresGateway:
@@ -49,6 +50,32 @@ class GetByIdGate(Generic[TTable, TEntityId, TEntity], PostgresGateway):
         if result is None:
             raise  NotFoundError(self.table)
         return self.schema_type.model_validate(result)
+    
+@dataclass(slots=True, kw_only=True)
+class GetByNameGate(Generic[TTable, TEntityName, TEntity], PostgresGateway):
+    table: Type[TTable]
+    schema_type: Type[TEntity]
+    entity_name: Type[TEntityName]
+
+    async def __call__(self, name = TEntityName) -> TEntity:
+        stmt = Select(*self.table.group_by_fields()).where(self.table.name == name)
+        result = (await self.session.execute(stmt)).mappings().fetchone()
+        print(result)
+        if result is None:
+            raise  NotFoundError(self.table)
+        return self.schema_type.model_validate(result)
+    
+@dataclass(slots=True, kw_only=True)
+class GetAllGate(Generic[TTable, TEntity], PostgresGateway):
+    table: Type[TTable]
+    schema_type: Type[TEntity]
+
+    async def __call__(self) -> list[TEntity] | list[None]:
+        stmt = Select(*self.table.group_by_fields())
+        results = (await self.session.execute(stmt)).mappings().fetchall()
+        if results == []:
+            return  results
+        return [self.schema_type.model_validate(result) for result in results]
 
 @dataclass(slots=True, kw_only=True)
 class CreateGate(Generic[TTable, TCreate], PostgresGateway):
@@ -116,7 +143,6 @@ class UpdateReturningGate(Generic[TTable, TUpdate, TEntityId, TEntity], Postgres
 class DeleteGate(Generic[TTable, TEntityId], PostgresGateway):
     table: Type[TTable]
     entity_id: Type[TEntityId]
-    schema_type: Type[TEntity]
 
     async def __call__(self, entity_id: TEntityId) -> None:
         stmt = delete(self.table).where(self.table.id==entity_id)

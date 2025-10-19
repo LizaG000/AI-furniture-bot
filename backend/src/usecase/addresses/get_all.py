@@ -7,10 +7,10 @@ from src.infra.postgres.tables import AddressesModel
 from dataclasses import dataclass
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class GetAddressesUsecase(Usecase[UUID, list[AddressSchema]]):
+class GetAddressesUsecase(Usecase[int, list[AddressSchema]]):
     session: AsyncSession
     get_addresses: GetAllByIdUserGate[AddressesModel, AddressSchema, UUID]
     
-    async def __call__(self, id_user: UUID) -> list[AddressSchema]:
+    async def __call__(self, id_user: int) -> list[AddressSchema]:
         async with self.session.begin():
             return await self.get_addresses(id_user)

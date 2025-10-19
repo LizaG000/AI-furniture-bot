@@ -8,15 +8,19 @@ from loguru import logger
 from src.infra.postgres.gateways.base import GetAllByIdUserGate, CreateGate
 from src.infra.postgres.gateways.base import CreateReturningGate
 from src.infra.postgres.gateways.base import GetByIdGate
+from src.infra.postgres.gateways.base import GetByNameGate
+from src.infra.postgres.gateways.base import GetAllGate
 from src.infra.postgres.gateways.base import UpdateGate
 from src.infra.postgres.gateways.base import UpdateReturningGate
 from src.infra.postgres.gateways.base import DeleteGate
 from src.infra.postgres.gateways.base import DeleteReturningGate
 from src.infra.postgres.gateways.address import GetAddressGate
 
+
 TTable = TypeVar("TTable")
 TEntity = TypeVar("TEntity")
 TEntityId = TypeVar("TEntityId")
+TEntityName = TypeVar("TEntityName")
 TCreate = TypeVar("TCreate")
 TUpdate = TypeVar("TUpdate")
 
@@ -73,7 +77,32 @@ class PostgresProvider(Provider):
             entity_id=entity_id,
             schema_type=schema_type,
         )
-
+    @provide
+    async def _get_by_name_gate(
+            self,
+            table: Type[TTable],
+            entity_name: Type[TEntityName],
+            schema_type: Type[TEntity],
+            session: AsyncSession,
+    ) -> GetByNameGate[TTable, TEntityName, TEntity]:
+        return GetByNameGate(
+            session=session,
+            table=table,
+            entity_name=entity_name,
+            schema_type=schema_type,
+        )
+    @provide
+    async def _get_all_gate(
+            self,
+            table: Type[TTable],
+            schema_type: Type[TEntity],
+            session: AsyncSession,
+    ) -> GetAllGate[TTable, TEntity]:
+        return GetAllGate(
+            session=session,
+            table=table,
+            schema_type=schema_type,
+        )
     @provide
     async def _create_gate(
             self,
