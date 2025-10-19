@@ -4,6 +4,7 @@ from telebot.asyncio_filters import StateFilter
 
 bot = AsyncTeleBot("8391809243:AAGi-OMZxGl3PnAuMeIW-xDi0UntJEes-vM")
 
+
 from presentation.handlers.registration_handlers import registration_handlers
 from presentation.handlers.addresses.create_addresses import create_address_handlers
 from presentation.handlers.addresses.get_addresses import get_addresses_handlers
