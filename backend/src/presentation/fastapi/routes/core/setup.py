@@ -2,7 +2,7 @@ from dishka.integrations.fastapi import DishkaRoute
 from fastapi import APIRouter
 
 from src.presentation.fastapi.routes.core.users.api import ROUTER as USER_ROUTER
-from src.presentation.fastapi.routes.core.users.api import ROUTER as ADDRESSES_ROUTER
+from src.presentation.fastapi.routes.core.addresses.api import ROUTER as ADDRESSES_ROUTER
 from src.presentation.fastapi.routes.core.categories.api import ROUTER as CATEGORIES_ROUTER
 from src.presentation.fastapi.routes.core.materials.api import ROUTER as MATERIALS_ROUTER
 from src.presentation.fastapi.routes.core.colors.api import ROUTER as COLORS_ROUTER
