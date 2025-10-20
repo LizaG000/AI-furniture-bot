@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.usecase.base import Usecase
 from src.infra.postgres.gateways.base import CreateReturningGate, GetAllGate, CreateGate
 from src.application.schemas.product import CreateProductSchema, ProductSchema
-from src.application.schemas.common import PatternSchema, CreatePatternSchema, CreatePatternProductSchema, CreateColors, CreateMaterials
+from src.application.schemas.common import PatternSchema, CreatePatternSchema, GetColors, GetMaterials, CreateColors, CreateMaterials
 from src.usecase.products.schemas import CreateProductBatchSchema
 from src.infra.postgres.tables import ProductsModel, ColorsModel, MaterialsModel, CategoriesModel, ProductsColorsModel, ProductsMaterialsModel
 from dataclasses import dataclass
@@ -17,8 +17,8 @@ class CreateProductUsecase(Usecase[list[CreateProductBatchSchema], None]):
     create_material: CreateReturningGate[MaterialsModel, CreatePatternSchema, PatternSchema]
     get_categories: GetAllGate[CategoriesModel, PatternSchema]
     create_category: CreateReturningGate[CategoriesModel, CreatePatternSchema, PatternSchema]
-    create_color_product: CreateGate[ProductsColorsModel, ]
-    create_material_product: CreateGate[ProductsMaterialsModel, CreatePatternProductSchema]
+    create_color_product: CreateReturningGate[ProductsColorsModel, CreateColors, GetColors]
+    create_material_product: CreateReturningGate[ProductsMaterialsModel, CreateMaterials, GetMaterials]
 
     
 

@@ -41,3 +41,17 @@ class CreateColors(BaseModel):
 class CreateMaterials(BaseModel):
     id_product: UUID
     id_material: UUID
+
+class GetColors(BaseModel):
+    id: UUID
+    id_product: UUID
+    id_color: UUID
+    created_at: datetime
+    updated_at: datetime
+
+class GetMaterials(BaseModel):
+    id: UUID
+    id_product: UUID
+    id_material: UUID
+    created_at: datetime
+    updated_at: datetime
