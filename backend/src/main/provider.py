@@ -12,6 +12,7 @@ from src.usecase.users.create import CreateUserUsecase
 from src.usecase.addresses.create import CreateAddressUsecase
 from src.usecase.addresses.get_all import GetAddressesUsecase
 from src.usecase.addresses.delete import DeleteAddressesUsecase
+from src.usecase.products.create import CreateProductUsecase
 
 
 
@@ -35,5 +36,6 @@ class MainProvider(Provider):
         CreateAddressUsecase,
         GetAddressesUsecase,
         DeleteAddressesUsecase,
+        CreateProductUsecase,
     )
 
