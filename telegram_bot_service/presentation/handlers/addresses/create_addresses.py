@@ -1,5 +1,4 @@
 import aiohttp
-from telebot.asyncio_storage import StateMemoryStorage
 from telebot.handler_backends import State, StatesGroup
 from application.schemas.AddressSchemas import CreateAddressSchema
 from application.servers.validation import validation_str_num
@@ -107,16 +106,19 @@ def create_address_handlers(bot):
         try:
             postal_code = int(message.text)
             address.postal_code = postal_code
-            try:
-                async with aiohttp.ClientSession() as session:
-                    data = address.__dict__
-                    result = await session.post('http://future-backend.tw1.ru:8003/api/address', json=data)
-                    if result.status == 200:
-                        await bot.send_message(message.chat.id, f'Адрес Успешно добавден!\nСтрана: {address.country}\nРайон: {address.region}\nГород: {address.city}\nУлица: {address.street}\nНомер дома: {address.house_number}\nНомер квартиры: {address.quadrature_number}\nПочтовый код: {address.postal_code}')
-                    else:
-                        await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
-            except:
-                await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
         except:
             await bot.send_message(message.chat.id, 'Упс. Кажется вы нажали куда-то не туда.\nВведите номер квартиры.')
             await bot.set_state(message.from_user.id, Address.postal_code, message.chat.id)
+        try:
+            async with aiohttp.ClientSession() as session:
+                data = address.__dict__
+                result = await session.post('http://future-backend.tw1.ru:8003/api/address', json=data)
+                if result.status == 200:
+                    await bot.send_message(message.chat.id, f'Адрес Успешно добавден!\nСтрана: {address.country}\nРайон: {address.region}\nГород: {address.city}\nУлица: {address.street}\nНомер дома: {address.house_number}\nНомер квартиры: {address.quadrature_number}\nПочтовый код: {address.postal_code}')
+                    await bot.set_state(message.from_user.id, None, message.chat.id)
+                else:
+                    await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
+                    await bot.set_state(message.from_user.id, None, message.chat.id)
+        except:
+            await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
+            await bot.set_state(message.from_user.id, None, message.chat.id)

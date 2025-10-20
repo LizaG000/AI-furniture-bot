@@ -26,5 +26,5 @@ async def get_addresses_by_user(
 @ROUTER.delete('', status_code=status.HTTP_200_OK)
 async def delete_address_by_user(
     usecase: FromDishka[DeleteAddressesUsecase],
-    id: int) -> AddressSchema:
+    id: UUID) -> AddressSchema:
     return await usecase(id=id)
