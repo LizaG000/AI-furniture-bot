@@ -124,8 +124,8 @@ class ProductsModel(BaseDBModel):
         String(255),
         nullable=False,
     )
-    description: Mapped[int] = mapped_column(
-        Integer,
+    description: Mapped[str] = mapped_column(
+        String(1024), 
         nullable=False,
     )
     count: Mapped[int] = mapped_column(
