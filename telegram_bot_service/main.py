@@ -1,8 +1,10 @@
 import asyncio
 from telebot.async_telebot import AsyncTeleBot
 from telebot.asyncio_filters import StateFilter
+from telebot.asyncio_storage import StateMemoryStorage
 
-bot = AsyncTeleBot("8391809243:AAGi-OMZxGl3PnAuMeIW-xDi0UntJEes-vM")
+storage = StateMemoryStorage()
+bot = AsyncTeleBot(token="8391809243:AAGi-OMZxGl3PnAuMeIW-xDi0UntJEes-vM",parse_mode="HTML", colorful_logs=True, state_storage=storage)
 
 
 from presentation.handlers.registration_handlers import registration_handlers

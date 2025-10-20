@@ -90,17 +90,11 @@ def registration_handlers(bot):
             await bot.set_state(message.from_user.id, Registration.email, message.chat.id)
         else:
             user.email = email
-        #     async with aiohttp.ClientSession() as session:
-        #         data = user.__dict__
-        #         print(data)
-        #         result = await session.post('http://future-backend.tw1.ru:8003/api/user', json=data)
-        #         print(result)
-        #         print(await result.text())
-        #         await bot.send_message(message.chat.id, f'Поздравляю {result.first_name}! Вы успешно зарегистрированы!')
             try:
                 async with aiohttp.ClientSession() as session:
                     data = user.__dict__
                     result = await session.post('http://future-backend.tw1.ru:8003/api/user', json=data)
                     await bot.send_message(message.chat.id, f'Поздравляю {user.first_name}! Вы успешно зарегистрированы!')
+                    await bot.set_state(message.from_user.id, None, message.chat.id)
             except:
                 await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')

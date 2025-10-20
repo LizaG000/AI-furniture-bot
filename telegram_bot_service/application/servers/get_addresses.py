@@ -1,10 +1,10 @@
 import aiohttp
 import json
-from pydantic import types
+from typing import Tuple
 from presentation.handlers.addresses.schemas import AddressSchema, adapter
 
 
-async def get_addresses_list(id_user: int) -> types[str, list[str], list[AddressSchema]]:
+async def get_addresses_list(id_user: int) -> Tuple[str, list[str], list[AddressSchema]]:
     async with aiohttp.ClientSession() as session:
         params={'id_user': str(id_user)}
         result = await session.get('http://future-backend.tw1.ru:8003/api/address', params=params)
