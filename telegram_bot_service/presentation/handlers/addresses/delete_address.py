@@ -20,11 +20,8 @@ def delete_addresses_handlers(bot):
             "addresses": addresses,
             "results":results
         }
-        print(2)
         answer = "Введите номер адреса, который хотите удалить:\n" + text
-        print(2)
         await bot.send_message(message.chat.id, answer)
-        print(2)
         await bot.set_state(message.from_user.id, Address.delete_address, message.chat.id)
     
 
@@ -39,10 +36,9 @@ def delete_addresses_handlers(bot):
             await bot.set_state(message.from_user.id, Address.delete_address, message.chat.id)
         async with aiohttp.ClientSession() as session:
             params={'id': str(results[int(answer)-1].id)}
-            result = await session.delete('http://future-backend.tw1.ru:8003/api/address', params=params)
-            print(result)
-            print(result.status)
-            await bot.send_message(message.chat.id, await result.text())
+            await session.delete('http://future-backend.tw1.ru:8003/api/address', params=params)
+            await bot.send_message(message.chat.id, "Успешно удален адрес: \n"+addresses[int(answer)-1])
+            await bot.set_state(message.from_user.id, None, message.chat.id)
 
 
 

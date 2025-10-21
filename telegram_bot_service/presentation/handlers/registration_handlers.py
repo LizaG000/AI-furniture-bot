@@ -93,7 +93,7 @@ def registration_handlers(bot):
             try:
                 async with aiohttp.ClientSession() as session:
                     data = user.__dict__
-                    result = await session.post('http://future-backend.tw1.ru:8003/api/user', json=data)
+                    await session.post('http://future-backend.tw1.ru:8003/api/user', json=data)
                     await bot.send_message(message.chat.id, f'Поздравляю {user.first_name}! Вы успешно зарегистрированы!')
                     await bot.set_state(message.from_user.id, None, message.chat.id)
             except:
