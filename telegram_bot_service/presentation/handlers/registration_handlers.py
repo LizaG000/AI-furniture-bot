@@ -103,3 +103,4 @@ def registration_handlers(bot):
                     await bot.set_state(message.from_user.id, None, message.chat.id)
             except:
                 await bot.send_message(message.chat.id, f'Упс, не удалось установить соединение')
+                users.pop(message.chat.id)
