@@ -11,10 +11,13 @@ from presentation.handlers.registration_handlers import registration_handlers
 from presentation.handlers.addresses.create_addresses import create_address_handlers
 from presentation.handlers.addresses.get_addresses import get_addresses_handlers
 from presentation.handlers.addresses.delete_address import delete_addresses_handlers
+from application.servers.buttons.function import button_function
 
 bot.add_custom_filter(StateFilter(bot))
 
+
 async def main():
+    button_function(bot)
     registration_handlers(bot)
     create_address_handlers(bot)
     get_addresses_handlers(bot)
