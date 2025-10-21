@@ -41,7 +41,7 @@ class CreateProductUsecase(Usecase[list[CreateProductBatchSchema], None]):
             for product in products:  
             #категорию так жеб но без фора
                 if product.id_category not in category_names:
-                    category = await self.create_category(product.id_category)
+                    category = await self.create_category(CreatePatternSchema(name = product.id_category))
                     id_category = category.id
                 else:
                     id_category = categories[material_names.index(product.id_category)].id
@@ -66,10 +66,10 @@ class CreateProductUsecase(Usecase[list[CreateProductBatchSchema], None]):
 
                 for color_name in product.colors:
                     if color_name not in color_names:
-                        color = await self.create_color(color_name)
+                        color = await self.create_color(CreatePatternSchema(name = color_name))
                         colors.append(color)
                         color_names.append(color.name)
-                        id_color = colors.id
+                        id_color = color.id
                     else:
                         id_color = colors[color_names.index(color_name)].id
                     await self.create_color_product(
@@ -83,7 +83,7 @@ class CreateProductUsecase(Usecase[list[CreateProductBatchSchema], None]):
             #то же для материалов
                 for material_name in product.materials:
                     if material_name not in material_names:
-                        material = await self.create_material(material_name)
+                        material = await self.create_material(CreatePatternSchema(name = material_name))
                         materials.append(material)
                         material_names.append(material.name)
                         id_material = material.id
