@@ -4,7 +4,7 @@ from typing import Tuple
 from presentation.handlers.addresses.schemas import AddressSchema, adapter
 from application.schemas.users import users
 
-async def get_addresses_list(id_user: int) -> Tuple[str, list[str], list[AddressSchema]]:
+async def get_addresses_list(id_user: int, chat_id: int) -> Tuple[str, list[str], list[AddressSchema]]:
     async with aiohttp.ClientSession() as session:
         params={'id_user': str(id_user)}
         result = await session.get('http://future-backend.tw1.ru:8003/api/address', params=params)
@@ -23,15 +23,8 @@ async def get_addresses_list(id_user: int) -> Tuple[str, list[str], list[Address
             addresses.append(string)
                   
         text = "\n".join(f"{i+1}. {address}" for i, address in enumerate(addresses))
-        if message.chat.id not in users:
-            users[message.chat.id] = {
-            "text": text,
-            "addresses": addresses,
-            "results":results
-            }
-        else:
-            users[id_user]["text"] = text
-            users[id_user]["addresses"] = addresses
-            users[id_user]["results"] = results
+        users[id_user]["text"] = text
+        users[id_user]["addresses"] = addresses
+        users[id_user]["results"] = results
 
         return text, addresses, results

@@ -16,11 +16,14 @@ def delete_addresses_handlers(bot):
         if message.chat.id not in users:
             await bot.send_message(message.chat.id, "Упс. Кажется вы еще не зарегистрированы(")
         else:
-            if "text" not in users[message.chat.id]:
-                await get_addresses_list(message.from_user.id)
-            answer = "Введите номер адреса, который хотите удалить:\n" + text
-            await bot.send_message(message.chat.id, answer, reply_markup=return_button())
-            await bot.set_state(message.from_user.id, Address.delete_address, message.chat.id)
+            if "text" not in users[message.chat.id] or users[message.chat.id]["text"] == "":
+                await get_addresses_list(message.from_user.id, message.chat.id)
+            if users[message.chat.id]["text"] == "":
+                await bot.send_message(message.chat.id, "Упс. Кажется у вас еще нет адресов(")
+            else:
+                answer = "Введите номер адреса, который хотите удалить:\n" + users[message.chat.id]["text"]
+                await bot.send_message(message.chat.id, answer, reply_markup=return_button())
+                await bot.set_state(message.from_user.id, Address.delete_address, message.chat.id)
     
 
     @bot.message_handler(state=Address.delete_address)
@@ -36,6 +39,7 @@ def delete_addresses_handlers(bot):
             params={'id': str(results[int(answer)-1].id)}
             await session.delete('http://future-backend.tw1.ru:8003/api/address', params=params)
             await bot.send_message(message.chat.id, "Успешно удален адрес: \n"+addresses[int(answer)-1], reply_markup=types.ReplyKeyboardRemove())
+            await get_addresses_list(message.from_user.id, message.chat.id)
             await bot.set_state(message.from_user.id, None, message.chat.id)
 
 
