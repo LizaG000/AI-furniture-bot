@@ -44,7 +44,7 @@ class CreateProductUsecase(Usecase[list[CreateProductBatchSchema], None]):
                     category = await self.create_category(CreatePatternSchema(name = product.category_name))
                     id_category = category.id
                 else:
-                    id_category = categories[category_names.index(product.name)].id
+                    id_category = categories[category_names.index(product.category_name)].id
             #создаешь продукт
 
                 new_product = await self.create_product(
