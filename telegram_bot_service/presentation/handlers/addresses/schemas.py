@@ -1,9 +1,8 @@
-from dataclasses import dataclass
 from uuid import UUID
 from pydantic import BaseModel, Field
 from datetime import datetime
 from pydantic import TypeAdapter
-from typing import List, Dict, Union
+from typing import List
 
 
 class AddressSchema(BaseModel):
