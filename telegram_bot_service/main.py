@@ -15,6 +15,7 @@ from application.servers.buttons.function import button_function
 from application.servers.get_categories import get_categories
 from application.servers.get_colors import get_colors
 from application.servers.get_materials import get_materials
+from presentation.handlers.products.get_products import get_products_handlers
 from application.schemas.shop import shop
 
 bot.add_custom_filter(StateFilter(bot))
@@ -24,12 +25,12 @@ async def main():
     await get_categories()
     await get_colors()
     await get_materials()
-    print(shop)
     button_function(bot)
     registration_handlers(bot)
     create_address_handlers(bot)
     get_addresses_handlers(bot)
     delete_addresses_handlers(bot)
+    get_products_handlers(bot)
     await bot.polling(non_stop=True)
 
 if __name__ == '__main__':
