@@ -58,3 +58,5 @@ class GetProductsGate(PostgresGateway):
         return [ReturnProductsSchema.model_validate(row) for row in results]
 
 
+
+
