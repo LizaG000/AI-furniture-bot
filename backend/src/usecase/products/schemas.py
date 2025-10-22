@@ -11,7 +11,7 @@ class CreateProductBatchSchema(BaseModel):
     length: float
     height: float
     width: float
-    name: str
+    category_name: str
     images: list[str] = []
     colors: list[str] = []
     materials: list[str] = []

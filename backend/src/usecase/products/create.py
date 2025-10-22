@@ -40,8 +40,8 @@ class CreateProductUsecase(Usecase[list[CreateProductBatchSchema], None]):
 
             for product in products:  
             #категорию так жеб но без фора
-                if product.name not in category_names:
-                    category = await self.create_category(CreatePatternSchema(name = product.name))
+                if product.category_name not in category_names:
+                    category = await self.create_category(CreatePatternSchema(name = product.category_name))
                     id_category = category.id
                 else:
                     id_category = categories[category_names.index(product.name)].id
