@@ -95,6 +95,9 @@ class CreateProductUsecase(Usecase[list[CreateProductBatchSchema], None]):
                             id_material = id_material,
                         )
                     )
+            print(color_names)
+            print(material_names)
+            print(category_names)
 
             #проходишься фором по цветам и добавляешь в таблицу зависимости схема в коммон продукт паттерн схема
 
