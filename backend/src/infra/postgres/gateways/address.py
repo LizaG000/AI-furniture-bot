@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 from sqlalchemy import select, insert
 from loguru import logger
-
-from pydantic import BaseModel
+from src.infra.postgres.gateways.base import PostgresGateway
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.infra.postgres.tables import BaseDBModel
 from sqlalchemy import Select
@@ -11,10 +10,6 @@ from typing import TypeVar, Generic, Type
 from src.infra.postgres.tables import AddressesModel
 from src.application.schemas.addresses import CreateAddressSchema, AddressSchema
 from loguru import logger
-
-@dataclass(slots=True, kw_only=True)
-class PostgresGateway:
-    session: AsyncSession
 
 
 @dataclass(slots=True, kw_only=True)
