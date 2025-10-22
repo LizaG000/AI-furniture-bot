@@ -105,3 +105,8 @@ class CreateProductUsecase(Usecase[list[CreateProductBatchSchema], None]):
 
 
 
+
+
+
+
+
