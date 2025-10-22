@@ -12,11 +12,19 @@ from presentation.handlers.addresses.create_addresses import create_address_hand
 from presentation.handlers.addresses.get_addresses import get_addresses_handlers
 from presentation.handlers.addresses.delete_address import delete_addresses_handlers
 from application.servers.buttons.function import button_function
+from application.servers.get_categories import get_categories
+from application.servers.get_colors import get_colors
+from application.servers.get_materials import get_materials
+from application.schemas.shop import shop
 
 bot.add_custom_filter(StateFilter(bot))
 
 
 async def main():
+    await get_categories()
+    await get_colors()
+    await get_materials()
+    print(shop)
     button_function(bot)
     registration_handlers(bot)
     create_address_handlers(bot)
