@@ -90,7 +90,7 @@ def button_function(bot):
                 reply_markup=types.ReplyKeyboardRemove()
             )
             products = await get_products(message.chat.id, bot)
-            await bot.set_state(message.from_user.id, Products.Products, message.chat.id)
+            await bot.set_state(message.from_user.id, None, message.chat.id)
 
 
     @bot.callback_query_handler(func=lambda call: True)
