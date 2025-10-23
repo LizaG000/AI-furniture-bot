@@ -12,7 +12,5 @@ class GetProductUsecase(Usecase[GetProductsSchema, list[ReturnProductsSchema]]):
 
     async def __call__(self, data: GetProductsSchema) -> list[ReturnProductsSchema] | list:
         async with self.session.begin():
-            print(1)
             products = await self.get_products_gate(data)
-            print(2)
             return products
