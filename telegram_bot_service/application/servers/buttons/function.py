@@ -7,6 +7,8 @@ from application.servers.buttons.buttons import colors_button
 from application.servers.buttons.buttons import materials_button
 from application.servers.get_products import get_products
 from application.servers.buttons.buttons import product_message
+from application.servers.add_bascket import add_bascket
+from application.servers.add_favorites import add_favorites
 
 
 
@@ -19,7 +21,9 @@ def button_function(bot):
         state = await bot.get_state(message.from_user.id, message.chat.id)
 
         if state.startswith("Registration"):
-            users[message.chat.id].pop(message.from_user.id)
+            users[message.chat.id].pop(message.chat.id, None)
+        elif state.startswith("Address"):
+            users[message.chat.id].pop("address", None)
 
         await bot.send_message(
             message.chat.id,
@@ -110,9 +114,17 @@ def button_function(bot):
         elif call.data.startswith("minus_") and users[id_chat]["count"] > 0:
             users[id_chat]["count"] -= 1
         elif call.data.startswith("cart_"):
-            bot.answer_callback_query(call.id, "Добавлено в корзину!")
+            status = await add_bascket(id_user=users[id_chat][id_chat].id, id_product=products[index].id, count=users[id_chat]["count"])
+            if status == 200:
+                bot.send_message(call.id, "Добавлено в корзину!")
+            else:
+                bot.send_message(call.id, "Ошибка при добавлении в корзину.")
         elif call.data.startswith("fav_"):
-            bot.answer_callback_query(call.id, "Добавлено в избранное!")
+            status = await add_favorites(id_user=users[id_chat][id_chat].id, id_product=products[index].id)
+            if status == 200:
+                bot.send_message(call.id, "Добавлено в избранное!")
+            else:
+                bot.send_message(call.id, "Ошибка при добавлении в избранное.")
 
         users[id_chat]["index"] = index
         await bot.delete_message(id_chat, call.message.message_id)
