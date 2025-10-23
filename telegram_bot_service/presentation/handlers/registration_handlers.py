@@ -23,7 +23,7 @@ def registration_handlers(bot):
     async def registration_name(message):
         if message.chat.id not in users:
             users[message.chat.id] = {}
-        users[message.chat.id][message.from_user.id] = CreateUser()
+        users[message.chat.id][message.chat.id] = CreateUser()
         await bot.send_message(message.chat.id, 'Введите ваше имя.', reply_markup=return_button())
         await bot.set_state(message.from_user.id, Registration.first_name, message.chat.id)
 
@@ -36,8 +36,8 @@ def registration_handlers(bot):
             await bot.send_message(message.chat.id, 'Упс. Кажется вы нажали куда-то не туда.\nВведите пожалуйста имя.')
             await bot.set_state(message.from_user.id, Registration.first_name, message.chat.id)
         else:
-            users[message.chat.id][message.from_user.id].id = message.from_user.id
-            users[message.chat.id][message.from_user.id].first_name = first_name[0].upper() + first_name[1:]
+            users[message.chat.id][message.chat.id].id = message.from_user.id
+            users[message.chat.id][message.chat.id].first_name = first_name[0].upper() + first_name[1:]
             await bot.send_message(message.chat.id, 'Введите ваше отчество или слово \"Нет\", если у вас нет отчества.')
             await bot.set_state(message.from_user.id, Registration.middle_name, message.chat.id)
 
@@ -52,9 +52,9 @@ def registration_handlers(bot):
             await bot.set_state(message.from_user.id, Registration.middle_name, message.chat.id)
         else:
             if middle_name == "нет":
-                users[message.chat.id][message.from_user.id].middle_name = None
+                users[message.chat.id][message.chat.id].middle_name = None
             else:
-                users[message.chat.id][message.from_user.id].middle_name = middle_name[0].upper() + middle_name[1:]
+                users[message.chat.id][message.chat.id].middle_name = middle_name[0].upper() + middle_name[1:]
             await bot.send_message(message.chat.id, 'Введите вашу фамилию.')
             await bot.set_state(message.from_user.id, Registration.last_name, message.chat.id)
 
@@ -68,7 +68,7 @@ def registration_handlers(bot):
             await bot.send_message(message.chat.id, 'Упс. Кажется вы нажали куда-то не туда.\nВведите пожалуйста фамилию.')
             await bot.set_state(message.from_user.id, Registration.last_name, message.chat.id)
         else:
-            users[message.chat.id][message.from_user.id].last_name = last_name[0].upper() + last_name[1:]
+            users[message.chat.id][message.chat.id].last_name = last_name[0].upper() + last_name[1:]
             await bot.send_message(message.chat.id, 'Введите ваш номер телефона в формате 81231231212.')
             await bot.set_state(message.from_user.id, Registration.phone, message.chat.id)
 
@@ -81,7 +81,7 @@ def registration_handlers(bot):
                              'Упс. Кажется вы нажали куда-то не туда.\nВведите пожалуйста номер телефона.')
             await bot.set_state(message.from_user.id, Registration.phone, message.chat.id)
         else:
-            users[message.chat.id][message.from_user.id].phone =  int(phone)
+            users[message.chat.id][message.chat.id].phone =  int(phone)
             await bot.send_message(message.chat.id, 'Введите вашу почту.')
             await bot.set_state(message.from_user.id, Registration.email, message.chat.id)
 
@@ -94,7 +94,8 @@ def registration_handlers(bot):
             await bot.send_message(message.chat.id, 'Упс. Кажется вы нажали куда-то не туда.\nВведите пожалуйста вашу почту.')
             await bot.set_state(message.from_user.id, Registration.email, message.chat.id)
         else:
-            users[message.chat.id][message.from_user.id].email = email
+            users[message.chat.id][message.chat.id].email = email
+            print(users[message.chat.id][message.chat.id])
             try:
                 async with aiohttp.ClientSession() as session:
                     data = users[message.chat.id][message.chat.id].__dict__
