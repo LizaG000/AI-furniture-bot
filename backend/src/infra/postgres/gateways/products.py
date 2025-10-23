@@ -25,6 +25,7 @@ class GetProductsGate(PostgresGateway):
                 ProductsModel.length,
                 ProductsModel.height,
                 ProductsModel.width,
+                ProductsModel.images,
                 CategoriesModel.name.label("category"),
                 func.coalesce(func.array_agg(func.distinct(ColorsModel.name)), []).label("colors"),
                 func.coalesce(func.array_agg(func.distinct(MaterialsModel.name)), []).label("materials"),
