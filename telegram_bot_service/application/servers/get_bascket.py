@@ -6,7 +6,10 @@ from application.servers.buttons.buttons import product_message
 
 async def get_bascket(id_chat: int):
     async with aiohttp.ClientSession() as session:
-        params={'id_user': users[id_chat][id_chat].id}
-        result = await session.get('http://future-backend.tw1.ru:8003/api/baskets', params=params)
+        print(users[id_chat][id_chat].id)
+        params={'data': users[id_chat][id_chat].id}
+        print(params)
+        result = await session.get('http://future-backend.tw1.ru:8003/api/basckets', params=params)
+        print(await result.text())
         baskets = adapter.validate_python(json.loads(await result.text()))
         return baskets

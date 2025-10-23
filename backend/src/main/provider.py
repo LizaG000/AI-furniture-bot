@@ -18,6 +18,7 @@ from src.usecase.basket.create import CreateBasckettUsecase
 from src.usecase.basket.get import GetBasketUsecase
 from src.usecase.favorites.create import CreateFavoritesUsecase
 from src.usecase.favorites.get import GetFavoritesUsecase
+from src.usecase.orders.create import CreateOrderUsecase
 
 
 
@@ -47,5 +48,6 @@ class MainProvider(Provider):
         CreateFavoritesUsecase,
         GetBasketUsecase,
         GetFavoritesUsecase,
+        CreateOrderUsecase,
     )
 

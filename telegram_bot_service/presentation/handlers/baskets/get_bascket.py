@@ -13,14 +13,18 @@ def basket_handlers(bot):
             users[message.chat.id] = {}
         users[message.chat.id]["basket"] = await get_bascket(message.chat.id)
         basket = users[message.chat.id]["basket"]
-        basket = users[message.chat.id]["basket_index"] = 0
-        await bot.send_message(message.chat.id, 'Ваши товары')
-        with open(f"images/{basket[0].images[0]}.png", "rb") as photo:
-            await bot.send_photo(
-                message.chat.id,
-                photo,
-                caption=f"<b>{basket[0].name}</b>\n{basket[0].description}\n\nЦена: {basket[0].price / 100 * (100-basket[0].discount)}₽",
-                parse_mode="HTML",
-                reply_markup=basket_message(message.chat.id, 0)
-            )
+        if basket == []:
+            await bot.send_message(message.chat.id, 'У вас пусто в корзине.')
+        else:
+            users[message.chat.id]["index_basket"] = 0
+            print(users[message.chat.id])
+            await bot.send_message(message.chat.id, 'Ваши товары')
+            with open(f"images/{basket[0].images[0]}.png", "rb") as photo:
+                await bot.send_photo(
+                    message.chat.id,
+                    photo,
+                    caption=f"<b>{basket[0].name}</b>\n{basket[0].description}\n\nЦена: {basket[0].price / 100 * (100-basket[0].discount)}₽",
+                    parse_mode="HTML",
+                    reply_markup=basket_message(message.chat.id, 0)
+                )
             

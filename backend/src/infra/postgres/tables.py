@@ -264,6 +264,10 @@ class OrdersModel(BaseDBModel):
         ForeignKey('db_schema.addresses.id'),
         nullable=False
     )
+    status: Mapped[str] = mapped_column(
+        String,
+        nullable=False
+    )
     created_at: Mapped[created_at]
     updated_at: Mapped[updated_at]
 

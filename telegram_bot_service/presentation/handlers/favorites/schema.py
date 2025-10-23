@@ -8,7 +8,7 @@ from typing import List
 @dataclass
 class FavoritesSchema(BaseModel):
     id: UUID  = Field(..., alias="id")
-    id_product: int  = Field(..., alias="id_product")
+    id_product: UUID  = Field(..., alias="id_product")
     id_user: int  = Field(..., alias="id_user")
     name: str  = Field(..., alias="name")
     description: str  = Field(..., alias="description")
