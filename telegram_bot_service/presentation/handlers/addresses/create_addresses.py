@@ -20,6 +20,8 @@ def create_address_handlers(bot):
 
     @bot.message_handler(commands=['add_address', 'добавить_адрес'])
     async def add_address(message):
+        if message.chat.id not in users:
+            users[message.chat.id] = {}
         if message.chat.id not in users[message.from_user.id]:
             await bot.send_message(message.chat.id, "Упс. Кажется вы еще не зарегистрированы(")
         else:

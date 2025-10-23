@@ -17,6 +17,7 @@ def registration_handlers(bot):
 
     @bot.message_handler(commands=['start'])
     async def main(message):
+        users[message.chat.id] = {}
         await bot.send_message(message.chat.id, 'Привет! 👋 Добро пожаловать в мебельный магазин <b>«Future»</b>.\nЗарегистрируйтесь — и мы сохраним ваши любимые товары и предложим персональные скидки!\nЧтобы зарегистрироваться введите /registrate', parse_mode='html')
 
     @bot.message_handler(commands=['registrate', 'регистрация'])

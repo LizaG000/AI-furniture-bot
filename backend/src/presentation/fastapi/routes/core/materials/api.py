@@ -19,7 +19,7 @@ async def create_material(
 
 
 @ROUTER.get('', status_code=status.HTTP_200_OK)
-async def create_category(
+async def get_materals(
     usecase: FromDishka[GetAllGate[MaterialsModel, PatternSchema]]
     ) -> list[PatternSchema]:
     return await usecase()

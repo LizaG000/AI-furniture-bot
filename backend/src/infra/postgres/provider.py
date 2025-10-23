@@ -16,6 +16,8 @@ from src.infra.postgres.gateways.base import DeleteGate
 from src.infra.postgres.gateways.base import DeleteReturningGate
 from src.infra.postgres.gateways.address import GetAddressGate
 from src.infra.postgres.gateways.products import GetProductsGate
+from src.infra.postgres.gateways.favorites import GetFavoritesGate
+from src.infra.postgres.gateways.baskets import GetBasketGate
 
 
 TTable = TypeVar("TTable")
@@ -195,4 +197,6 @@ class PostgresProvider(Provider):
     _get_gateways = provide_all(
         GetAddressGate,
         GetProductsGate,
+        GetBasketGate,
+        GetFavoritesGate,
     )

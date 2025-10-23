@@ -13,3 +13,5 @@ class BascketSchema(CreateBascketSchema):
     created_at: datetime
     updated_at: datetime
 
+class UpdateBasketSchema(BaseModel):
+    count: int

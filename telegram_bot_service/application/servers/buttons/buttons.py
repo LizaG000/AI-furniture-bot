@@ -64,5 +64,32 @@ def product_message(id_chat:int, index: int, products):
     markup.row(btn_cart, btn_fav)
     return markup
 
+def basket_message(id_chat:int, index: int):
+    count = users[id_chat]["basket"][index].count
+
+    markup = types.InlineKeyboardMarkup(row_width=2)
+    btn_left = types.InlineKeyboardButton("⬅️", callback_data=f"left_basket_{index}")
+    btn_minus = types.InlineKeyboardButton("➖", callback_data=f"minus_basket_{index}")
+    btn_count = types.InlineKeyboardButton(f"{count}", callback_data="count")
+    btn_plus = types.InlineKeyboardButton("➕", callback_data=f"plus_basket_{index}")
+    btn_right = types.InlineKeyboardButton("➡️", callback_data=f"right_basket_{index}")
+    btn_delete = types.InlineKeyboardButton("X", callback_data=f"delete_basket_{index}")
+
+    markup.row(btn_left, btn_minus, btn_count, btn_plus, btn_right)
+    markup.row(btn_delete)
+
+    return markup
+
+def favorites_message(id_chat:int, index: int):
+    markup = types.InlineKeyboardMarkup(row_width=2)
+    btn_left = types.InlineKeyboardButton("⬅️", callback_data=f"left_favorites_{index}")
+    btn_right = types.InlineKeyboardButton("➡️", callback_data=f"right_favorites_{index}")
+    btn_delete = types.InlineKeyboardButton("X", callback_data=f"delete_favorites_{index}")
+
+    markup.row(btn_left, btn_right)
+    markup.row(btn_delete)
+
+    return markup
+
 
 

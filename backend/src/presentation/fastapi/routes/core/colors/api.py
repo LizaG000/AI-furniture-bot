@@ -19,7 +19,7 @@ async def create_color(
     
 
 @ROUTER.get('', status_code=status.HTTP_200_OK)
-async def create_category(
+async def create_colors(
     usecase: FromDishka[GetAllGate[ColorsModel, PatternSchema]]
     ) -> list[PatternSchema]:
     return await usecase()

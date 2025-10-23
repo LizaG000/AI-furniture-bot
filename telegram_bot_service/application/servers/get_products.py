@@ -19,7 +19,7 @@ async def get_products(id_chat: int, bot):
             await bot.send_photo(
                 id_chat,
                 photo,
-                caption=f"<b>{products[0].name}</b>\n{products[0].description}\n\nЦена: {products[0].price}₽",
+                caption=f"<b>{products[0].name}</b>\n{products[0].description}\n\nЦена: {products[0].price / 100 * (100-products[0].discount)}₽",
                 parse_mode="HTML",
                 reply_markup=markup
             )
