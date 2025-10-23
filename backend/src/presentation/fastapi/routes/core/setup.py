@@ -7,6 +7,8 @@ from src.presentation.fastapi.routes.core.categories.api import ROUTER as CATEGO
 from src.presentation.fastapi.routes.core.materials.api import ROUTER as MATERIALS_ROUTER
 from src.presentation.fastapi.routes.core.colors.api import ROUTER as COLORS_ROUTER
 from src.presentation.fastapi.routes.core.products.api import ROUTER as PRODUCTS_ROUTER
+from src.presentation.fastapi.routes.core.basckets.api import ROUTER as BASCKETS_ROUTER
+from src.presentation.fastapi.routes.core.favorites.api import ROUTER as FAVORITES_ROUTER
 
 
 def setup_core_router() -> APIRouter:
@@ -18,5 +20,7 @@ def setup_core_router() -> APIRouter:
     router.include_router(prefix='/materials', router=MATERIALS_ROUTER)
     router.include_router(prefix='/colors', router=COLORS_ROUTER)
     router.include_router(prefix='/products', router=PRODUCTS_ROUTER)
+    router.include_router(prefix='/basckets', router=BASCKETS_ROUTER)
+    router.include_router(prefix='/favorites', router=FAVORITES_ROUTER)
 
     return router

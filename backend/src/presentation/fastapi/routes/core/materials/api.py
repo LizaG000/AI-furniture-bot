@@ -7,7 +7,7 @@ from src.application.schemas.common import PatternSchema, CreatePatternSchema
 from src.infra.postgres.tables import MaterialsModel
 from src.infra.postgres.gateways.base import CreateReturningGate, GetAllGate
 
-ROUTER = APIRouter(route_class=DishkaRoute)
+ROUTER = APIRouter(route_class=DishkaRoute, tags=["Materials"])
 
 @ROUTER.post('', status_code=status.HTTP_200_OK)
 async def create_material(

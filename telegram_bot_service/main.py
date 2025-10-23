@@ -16,7 +16,6 @@ from application.servers.get_categories import get_categories
 from application.servers.get_colors import get_colors
 from application.servers.get_materials import get_materials
 from presentation.handlers.products.get_products import get_products_handlers
-from application.schemas.shop import shop
 
 bot.add_custom_filter(StateFilter(bot))
 
