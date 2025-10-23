@@ -5,7 +5,7 @@ from fastapi import status
 from src.application.schemas.users import CreateUserSchema
 from src.usecase.users.create import CreateUserUsecase
 
-ROUTER = APIRouter(route_class=DishkaRoute)
+ROUTER = APIRouter(route_class=DishkaRoute, tags=["Users"])
 
 @ROUTER.post('', status_code=status.HTTP_200_OK)
 async def create_users(

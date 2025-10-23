@@ -8,7 +8,7 @@ from src.infra.postgres.tables import CategoriesModel
 from src.infra.postgres.gateways.base import CreateReturningGate, GetAllGate
 
 
-ROUTER = APIRouter(route_class=DishkaRoute)
+ROUTER = APIRouter(route_class=DishkaRoute, tags=["Categories"])
 
 @ROUTER.post('', status_code=status.HTTP_200_OK)
 async def create_category(
