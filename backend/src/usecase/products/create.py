@@ -43,6 +43,8 @@ class CreateProductUsecase(Usecase[list[CreateProductBatchSchema], None]):
                 if product.category_name not in category_names:
                     category = await self.create_category(CreatePatternSchema(name = product.category_name))
                     id_category = category.id
+                    category_names.append(category.name)
+                    categories.append(category)
                 else:
                     id_category = categories[category_names.index(product.category_name)].id
             #создаешь продукт
@@ -102,11 +104,6 @@ class CreateProductUsecase(Usecase[list[CreateProductBatchSchema], None]):
             #проходишься фором по цветам и добавляешь в таблицу зависимости схема в коммон продукт паттерн схема
 
             #то же с материалами
-
-
-
-
-
 
 
 
