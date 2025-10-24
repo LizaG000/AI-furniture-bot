@@ -22,7 +22,6 @@ class CreateOrderUsecase(Usecase[AddOrdersProductsSchema, ReturningOrdersSchema]
             # Создать заказ
             order = await self.create_order(CreateOrdersSchema(
                 id_user=data.id_user,
-                id_product=data.id_product,
                 id_addresses=data.id_addresses,
                 status="Оформлен",
             ))
@@ -44,4 +43,4 @@ class CreateOrderUsecase(Usecase[AddOrdersProductsSchema, ReturningOrdersSchema]
                     ),
                     product.id_product
                 )
-        return await self.get_order(order.id_user)
+            return await self.get_order(order.id)
