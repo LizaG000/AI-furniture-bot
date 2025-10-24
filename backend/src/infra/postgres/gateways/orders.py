@@ -61,6 +61,6 @@ class GetOrdersGate(PostgresGateway):
 
         if not result:
             logger.info("Нет заказов.")
-            return result == []
+            return []
 
         return [ReturnOrderSchema.model_validate(row) for row in result]
