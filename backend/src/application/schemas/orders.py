@@ -5,7 +5,6 @@ from datetime import datetime
 
 class CreateOrdersSchema(BaseModel):
     id_user: int
-    id_product: UUID
     id_addresses: UUID
     status: str
 

@@ -21,4 +21,4 @@ async def get_products(
     usecase: FromDishka[GetProductUsecase],
     data: GetProductsSchema = Query(...)
 ) -> list[ReturnProductsSchema] | list:
-    return await usecase(data=data) 
+    return await usecase(data=data)

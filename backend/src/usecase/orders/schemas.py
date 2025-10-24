@@ -8,9 +8,8 @@ class AddProductsSchema(BaseModel):
     discount: float
 
 
-class AddOrdersProductsSchema:
+class AddOrdersProductsSchema(BaseModel):
     id_user: int
-    id_product: UUID
     id_addresses: UUID
     products: list[AddProductsSchema]
 
