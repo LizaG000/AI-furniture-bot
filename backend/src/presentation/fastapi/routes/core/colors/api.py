@@ -7,7 +7,7 @@ from src.application.schemas.common import PatternSchema, CreatePatternSchema
 from src.infra.postgres.tables import ColorsModel
 from src.infra.postgres.gateways.base import CreateReturningGate, GetAllGate
 
-ROUTER = APIRouter(route_class=DishkaRoute)
+ROUTER = APIRouter(route_class=DishkaRoute, tags=["Colors"])
 
 @ROUTER.post('', status_code=status.HTTP_200_OK)
 async def create_color(
@@ -19,7 +19,7 @@ async def create_color(
     
 
 @ROUTER.get('', status_code=status.HTTP_200_OK)
-async def create_category(
+async def create_colors(
     usecase: FromDishka[GetAllGate[ColorsModel, PatternSchema]]
     ) -> list[PatternSchema]:
     return await usecase()

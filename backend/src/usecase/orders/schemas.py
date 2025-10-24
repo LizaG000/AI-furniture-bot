@@ -1,21 +1,30 @@
 from pydantic import BaseModel
 from uuid import UUID
-from typing import Optional, List
-from datetime import datetime
 
-
-class OrderProductSchema(BaseModel):
-    id: UUID
-    name: str
+class AddProductsSchema(BaseModel):
+    id_product: UUID
     count: int
     price: float
     discount: float
 
 
-class ReturnOrderSchema(BaseModel):
-    order_id: UUID
-    created_at: datetime
-    address: Optional[str]
-    user_full_name: Optional[str]
-    products: List[OrderProductSchema]
-    total_price: float
+class AddOrdersProductsSchema(BaseModel):
+    id_user: int
+    id_addresses: UUID
+    products: list[AddProductsSchema]
+
+class ProductSchema(BaseModel):
+    id: UUID
+    name: str
+    description: str
+    count: int
+    price: float
+    discount: float
+
+
+class ReturningOrdersSchema(BaseModel):
+    id: UUID
+    address: str
+    status: str
+    products: list[ProductSchema]
+    

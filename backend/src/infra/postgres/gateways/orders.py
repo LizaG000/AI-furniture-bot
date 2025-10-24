@@ -1,66 +1,113 @@
 from dataclasses import dataclass
-from typing import List, Optional
-from sqlalchemy import select, func
-from loguru import logger
-
+from uuid import UUID
+import json
+from sqlalchemy import select, func, literal
 from src.infra.postgres.gateways.base import PostgresGateway
-from src.infra.postgres.tables import OrdersModel, OrdersProductsModel, ProductsModel, AddressesModel, UsersModel
+from src.infra.postgres.tables import OrdersModel, OrdersProductsModel, ProductsModel, AddressesModel
+from src.usecase.orders.schemas import ReturningOrdersSchema
+from src.application.errors import NotFoundError
 
-from src.usecase.orders.schemas import ReturnOrderSchema
+from loguru import logger
 
 
 @dataclass(slots=True, kw_only=True)
-class GetOrdersGate(PostgresGateway):
-    async def __call__(self, id_user: Optional[int] = None) -> List[ReturnOrderSchema]:
+class GetOrderGate(PostgresGateway):
 
+    async def __call__(self, id_order: UUID) -> ReturningOrdersSchema | None:
         stmt = (
             select(
-                OrdersModel.id.label("order_id"),
-                OrdersModel.created_at.label("created_at"),
-                func.concat_ws(
-                    ", ",
-                    AddressesModel.city,
-                    AddressesModel.street,
-                    AddressesModel.house_number
-                ).label("address"),
-                func.concat_ws(' ', UsersModel.first_name, UsersModel.last_name).label("user_full_name"),
+                OrdersModel.id,
+                OrdersModel.status,
+                func.concat(
+                    AddressesModel.country, literal(', '),
+                    AddressesModel.region, literal(', '),
+                    AddressesModel.city, literal(', '),
+                    AddressesModel.street, literal(', '),
+                    AddressesModel.house_number, literal(', '),
+                    AddressesModel.quadrature_number, literal(', '),
+                    AddressesModel.postal_code
+                ).label('address'),
                 func.json_agg(
                     func.json_build_object(
-                        "id", ProductsModel.id,
-                        "name", ProductsModel.name,
-                        "count", OrdersProductsModel.count,
-                        "price", OrdersProductsModel.price,
-                        "discount", OrdersProductsModel.discount
+                        'id', ProductsModel.id,
+                        'name', ProductsModel.name,
+                        'description', ProductsModel.description,
+                        'count', OrdersProductsModel.count,
+                        'price', OrdersProductsModel.price,
+                        'discount', ProductsModel.discount
                     )
-                ).label("products"),
-                func.sum(
-                    (OrdersProductsModel.price - OrdersProductsModel.price * (OrdersProductsModel.discount / 100.0))
-                    * OrdersProductsModel.count
-                ).label("total_price"),
+                ).label('products')
             )
-            .join(AddressesModel, AddressesModel.id == OrdersModel.id_addresses, isouter=True)
-            .join(UsersModel, UsersModel.id == OrdersModel.id_user, isouter=True)
+            .join(AddressesModel, AddressesModel.id == OrdersModel.id_addresses)
             .join(OrdersProductsModel, OrdersProductsModel.id_order == OrdersModel.id)
             .join(ProductsModel, ProductsModel.id == OrdersProductsModel.id_product)
+            .where(OrdersModel.id == id_order)
             .group_by(
                 OrdersModel.id,
-                OrdersModel.created_at,
+                OrdersModel.status,
+                AddressesModel.country,
+                AddressesModel.region,
                 AddressesModel.city,
                 AddressesModel.street,
                 AddressesModel.house_number,
-                UsersModel.first_name,
-                UsersModel.last_name
+                AddressesModel.quadrature_number,
+                AddressesModel.postal_code,
             )
-            .order_by(OrdersModel.created_at.desc())
         )
 
-        if id_user:
-            stmt = stmt.where(OrdersModel.id_user == id_user)
+        result = (await self.session.execute(stmt)).mappings().fetchone()
+        if result is None:
+            raise NotFoundError(OrdersModel)
+        
+        return ReturningOrdersSchema.model_validate(result)
 
-        result = (await self.session.execute(stmt)).mappings().all()
 
-        if not result:
-            logger.info("Нет заказов.")
+@dataclass(slots=True, kw_only=True)
+class GetOrdersAllGate(PostgresGateway):
+
+    async def __call__(self, id_user: int) -> list[ReturningOrdersSchema] | None:
+        stmt = (
+            select(
+                OrdersModel.id,
+                OrdersModel.status,
+                func.concat(
+                        AddressesModel.country, literal(', '),
+                        AddressesModel.region, literal(', '),
+                        AddressesModel.city, literal(', '),
+                        AddressesModel.street, literal(', '),
+                        AddressesModel.house_number, literal(', '),
+                        AddressesModel.quadrature_number, literal(', '),
+                        AddressesModel.postal_code
+                    ).label('address'),
+                func.json_agg(
+                    func.json_build_object(
+                        'id', ProductsModel.id,
+                        'name', ProductsModel.name,
+                        'description', ProductsModel.description,
+                        'count', OrdersProductsModel.count,
+                        'price', OrdersProductsModel.price,
+                        'discount', ProductsModel.discount
+                    )
+                ).label('products')
+                )
+            .join(AddressesModel, AddressesModel.id == OrdersModel.id_addresses)
+            .join(OrdersProductsModel, OrdersProductsModel.id_order == OrdersModel.id)
+            .join(ProductsModel, ProductsModel.id == OrdersProductsModel.id_product)
+            .where(OrdersModel.id_user == id_user)
+            .group_by(
+                OrdersModel.id,
+                OrdersModel.status,
+                AddressesModel.country,
+                AddressesModel.region,
+                AddressesModel.city,
+                AddressesModel.street,
+                AddressesModel.house_number,
+                AddressesModel.quadrature_number,
+                AddressesModel.postal_code,
+            )
+        )
+
+        results = (await self.session.execute(stmt)).mappings().all()
+        if results == []:
             return []
-
-        return [ReturnOrderSchema.model_validate(row) for row in result]
+        return [ReturningOrdersSchema.model_validate(result) for result in results]

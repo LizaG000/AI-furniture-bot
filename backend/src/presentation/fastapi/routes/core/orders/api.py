@@ -1,20 +1,26 @@
-from uuid import UUID
-from dishka.integrations.fastapi import DishkaRoute
-from dishka.integrations.fastapi import FromDishka
-from fastapi import APIRouter
+
+from fastapi import APIRouter, Query
 from fastapi import status
-from src.usecase.orders.get import GetUserOrdersUsecase, GetAllOrdersUsecase
-from src.usecase.orders.schemas import ReturnOrderSchema
+from dishka import FromDishka
+from dishka.integrations.fastapi import DishkaRoute
+from src.usecase.orders.schemas import ReturningOrdersSchema, AddOrdersProductsSchema
+from src.usecase.orders.create import CreateOrderUsecase
+from src.usecase.orders.get import GetOrdersUsecase
+
 
 ROUTER = APIRouter(route_class=DishkaRoute, tags=["Orders"])
 
-@ROUTER.get('', status_code=status.HTTP_200_OK, response_model=list[ReturnOrderSchema])
-async def get_all_orders(
-    usecase: FromDishka[GetAllOrdersUsecase]) -> list[ReturnOrderSchema]:
-    return await usecase()
+@ROUTER.post('', status_code=status.HTTP_200_OK)
+async def create_orders(
+    usecase: FromDishka[CreateOrderUsecase],
+    data: AddOrdersProductsSchema
+) -> ReturningOrdersSchema:
+    return await usecase(data=data)
 
-@ROUTER.get('/user/{user_id}', status_code=status.HTTP_200_OK, response_model=list[ReturnOrderSchema])
-async def get_user_orders(
-    user_id: int,
-    usecase: FromDishka[GetUserOrdersUsecase]) -> list[ReturnOrderSchema]:
-    return await usecase(user_id)
+
+@ROUTER.get('', status_code=status.HTTP_200_OK)
+async def get_orders(
+    usecase: FromDishka[GetOrdersUsecase],
+    id_user: int
+) -> list[ReturningOrdersSchema] | list:
+    return await usecase(id_user=id_user)

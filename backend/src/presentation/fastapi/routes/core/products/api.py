@@ -17,8 +17,8 @@ async def create_products(
 
 
 @ROUTER.get('', status_code=status.HTTP_200_OK)
-async def create_products(
+async def get_products(
     usecase: FromDishka[GetProductUsecase],
     data: GetProductsSchema = Query(...)
 ) -> list[ReturnProductsSchema] | list:
-    return await usecase(data=data) 
+    return await usecase(data=data)

@@ -16,12 +16,25 @@ from application.servers.get_categories import get_categories
 from application.servers.get_colors import get_colors
 from application.servers.get_materials import get_materials
 from presentation.handlers.products.get_products import get_products_handlers
-from application.schemas.shop import shop
+from presentation.handlers.baskets.get_bascket import basket_handlers
+from presentation.handlers.favorites.get_favorites import favorites_handlers
+from application.schemas.users import users
+from application.schemas.UserSchemas import CreateUser
 
 bot.add_custom_filter(StateFilter(bot))
 
 
 async def main():
+    users[986213540]={}
+    users[986213540][986213540] = CreateUser(
+        id=986213540,
+        first_name="Е",
+        last_name="T",
+        middle_name="f",
+        phone=12,
+        email="mmmm@mail.ru"
+    )
+    print(users)
     await get_categories()
     await get_colors()
     await get_materials()
@@ -31,6 +44,8 @@ async def main():
     get_addresses_handlers(bot)
     delete_addresses_handlers(bot)
     get_products_handlers(bot)
+    favorites_handlers(bot)
+    basket_handlers(bot)
     await bot.polling(non_stop=True)
 
 if __name__ == '__main__':

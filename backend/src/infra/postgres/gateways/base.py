@@ -46,7 +46,6 @@ class GetByIdGate(Generic[TTable, TEntityId, TEntity], PostgresGateway):
     async def __call__(self, id = TEntityId) -> TEntity:
         stmt = Select(*self.table.group_by_fields()).where(self.table.id == id)
         result = (await self.session.execute(stmt)).mappings().fetchone()
-        print(result)
         if result is None:
             raise  NotFoundError(self.table)
         return self.schema_type.model_validate(result)
@@ -60,7 +59,6 @@ class GetByNameGate(Generic[TTable, TEntityName, TEntity], PostgresGateway):
     async def __call__(self, name = TEntityName) -> TEntity:
         stmt = Select(*self.table.group_by_fields()).where(self.table.name == name)
         result = (await self.session.execute(stmt)).mappings().fetchone()
-        print(result)
         if result is None:
             raise  NotFoundError(self.table)
         return self.schema_type.model_validate(result)
@@ -84,16 +82,12 @@ class CreateGate(Generic[TTable, TCreate], PostgresGateway):
 
     async def __call__(self, entity: TCreate) -> None:
         stmt = insert(self.table).values(**entity.model_dump())
-        logger.info(3)
-        logger.info(1)
-        await self.session.execute(stmt)
-        logger.info(2)
-        # try:
-        #     logger.info(1)
-        #     await self.session.execute(stmt)
-        #     logger.info(2)
-        # except:
-        #     raise DatabaseCreateError(self.table)
+        try:
+            
+            await self.session.execute(stmt)
+            
+        except:
+            raise DatabaseCreateError(self.table)
 
 @dataclass(slots=True, kw_only=True)
 class CreateReturningGate(Generic[TTable, TCreate, TEntity], PostgresGateway):
@@ -117,7 +111,7 @@ class UpdateGate(Generic[TTable, TUpdate, TEntityId], PostgresGateway):
     entity_id: Type[TEntityId]
 
     async def __call__(self, entity: TCreate, entity_id: TEntityId) -> None:
-        stmt = update(self.table).where(self.table.id==entity_id).values(**entity.model_dump())
+        stmt = update(self.table).where(self.table.id==entity_id).values(**entity.model_dump(exclude_none=True))
         try:
             await self.session.execute(stmt)
         except:

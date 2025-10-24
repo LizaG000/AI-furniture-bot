@@ -7,6 +7,8 @@ def get_addresses_handlers(bot):
     @bot.message_handler(commands=['list_addresses', 'список_адресов'])
     async def get_addresses(message):
         if message.chat.id not in users:
+            users[message.chat.id] = {}
+        if message.chat.id not in users[message.from_user.id]:
             await bot.send_message(message.chat.id, "Упс. Кажется вы еще не зарегистрированы(")
         else:
             if "text" not in users[message.chat.id] or users[message.chat.id]["text"] == "":
