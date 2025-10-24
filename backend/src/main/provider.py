@@ -14,8 +14,11 @@ from src.usecase.addresses.get_all import GetAddressesUsecase
 from src.usecase.addresses.delete import DeleteAddressesUsecase
 from src.usecase.products.create import CreateProductUsecase
 from src.usecase.products.get import GetProductUsecase
-from src.usecase.bascket.create import CreateBasckettUsecase
+from src.usecase.basket.create import CreateBasckettUsecase
+from src.usecase.basket.get import GetBasketUsecase
 from src.usecase.favorites.create import CreateFavoritesUsecase
+from src.usecase.favorites.get import GetFavoritesUsecase
+from src.usecase.orders.create import CreateOrderUsecase
 
 
 
@@ -43,5 +46,8 @@ class MainProvider(Provider):
         GetProductUsecase,
         CreateBasckettUsecase,
         CreateFavoritesUsecase,
+        GetBasketUsecase,
+        GetFavoritesUsecase,
+        CreateOrderUsecase,
     )
 

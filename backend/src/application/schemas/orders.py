@@ -3,15 +3,21 @@ from typing import List
 from uuid import UUID
 from datetime import datetime
 
-class CreateBascketSchema(BaseModel):
+class CreateOrdersSchema(BaseModel):
     id_user: int
     id_product: UUID
-    count: int
+    id_addresses: UUID
+    status: str
 
-class BascketSchema(CreateBascketSchema):
+class OrdersSchema(CreateOrdersSchema):
     id: UUID
     created_at: datetime
     updated_at: datetime
 
-class UpdateBasketSchema(BaseModel):
+class CreateOrdersProductsSchemas(BaseModel):
+    id_order: UUID
+    id_product: UUID
     count: int
+    price: float
+    discount: float
+

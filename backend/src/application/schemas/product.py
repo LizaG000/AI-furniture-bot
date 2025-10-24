@@ -20,3 +20,15 @@ class ProductSchema(CreateProductSchema):
     created_at: datetime
     updated_at: datetime
 
+class UpdateProductSchema(BaseModel):
+    name: str | None = None
+    description: str | None = None
+    price: float | None = None
+    count: int | None = None
+    discount: float | None = None
+    length: float | None = None
+    height: float | None = None
+    width: float | None = None
+    id_category: UUID | None = None
+    images: List[str] | None = None
+
