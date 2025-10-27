@@ -1,6 +1,6 @@
 import aiohttp
 import json
-from application.schemas.shop import shop
+from application.data.shop import shop
 from application.schemas.PatternSchema import adapter
 
 async def get_categories():

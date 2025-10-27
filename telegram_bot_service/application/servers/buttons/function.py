@@ -1,7 +1,7 @@
 from telebot import types
-from application.schemas.users import users
-from application.schemas.shop import shop
-from application.schemas.states import Products
+from application.data.users import users
+from application.data.shop import shop
+from application.data.states import Products
 from application.servers.buttons.buttons import categories_button
 from application.servers.buttons.buttons import colors_button
 from application.servers.buttons.buttons import materials_button
@@ -225,12 +225,12 @@ def button_function(bot):
             users[id_chat]["index"] = index
             users[id_chat]["count"] = 1
             await update_product_message(id_chat, call.message.message_id, index, products)
-        elif call.data.startswith("plus_") and users[id_chat]["count"] <= users[id_chat]["products"][users[id_chat]["index"]].product_count: 
+        elif call.data.startswith("plus_") and users[id_chat]["count"] <= users[id_chat]["products"][users[id_chat]["index"]].count: 
             index = users[id_chat]["index"]
             products = users[id_chat]["products"]
             users[id_chat]["count"] += 1
             await update_product_message(id_chat, call.message.message_id, index, products)
-        elif call.data.startswith("minus_") and users[id_chat]["count"] > 0:
+        elif call.data.startswith("minus_") and users[id_chat]["count"] > 1:
             index = users[id_chat]["index"]
             products = users[id_chat]["products"]
             users[id_chat]["count"] -= 1

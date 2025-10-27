@@ -1,7 +1,7 @@
 import aiohttp
 import json
 from uuid import UUID
-from application.schemas.users import users
+from application.data.users import users
 from application.servers.get_favorites import get_favorites
 
 async def delete_favorites(id_chat: int, id_favorites: UUID):

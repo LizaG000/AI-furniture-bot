@@ -1,6 +1,6 @@
 from telebot import types
-from application.schemas.shop import shop
-from application.schemas.users import users
+from application.data.shop import shop
+from application.data.users import users
 
 def return_button():
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)

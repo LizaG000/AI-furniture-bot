@@ -2,7 +2,7 @@ import aiohttp
 import json
 from typing import Tuple
 from presentation.handlers.addresses.schemas import AddressSchema, adapter
-from application.schemas.users import users
+from application.data.users import users
 
 async def get_addresses_list(id_user: int, chat_id: int) -> Tuple[str, list[str], list[AddressSchema]]:
     async with aiohttp.ClientSession() as session:

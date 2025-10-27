@@ -1,5 +1,5 @@
 from application.servers.get_addresses import get_addresses_list
-from application.schemas.users import users
+from application.data.users import users
 
 
 

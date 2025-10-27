@@ -1,7 +1,7 @@
 import aiohttp
 from uuid import UUID
 import json
-from application.schemas.shop import shop
+from application.data.shop import shop
 from application.schemas.PatternSchema import adapter
 
 async def add_bascket(id_user:int, id_product: UUID, count:int):

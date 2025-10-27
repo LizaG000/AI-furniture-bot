@@ -1,7 +1,7 @@
 import aiohttp
 import json
 from uuid import UUID
-from application.schemas.users import users
+from application.data.users import users
 from presentation.handlers.baskets.schema import adapter
 
 async def update_bascket(id_chat: int, id_basket: UUID, count: int = 1):

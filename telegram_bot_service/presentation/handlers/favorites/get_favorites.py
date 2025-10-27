@@ -1,6 +1,6 @@
 import aiohttp
 from telebot.handler_backends import State, StatesGroup
-from application.schemas.users import users
+from application.data.users import users
 from application.servers.buttons.buttons import favorites_message
 from telebot import types
 from application.servers.get_favorites import get_favorites

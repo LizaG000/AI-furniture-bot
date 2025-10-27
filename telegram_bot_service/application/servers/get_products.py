@@ -1,6 +1,6 @@
 import aiohttp
 import json
-from application.schemas.users import users
+from application.data.users import users
 from presentation.handlers.products.shema import adapter
 from application.servers.buttons.buttons import product_message
 

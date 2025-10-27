@@ -3,20 +3,13 @@ from telebot import types
 from telebot.handler_backends import State, StatesGroup
 from application.schemas.AddressSchemas import CreateAddressSchema
 from application.servers.validation import validation_str_num
-from application.schemas.users import users
+from application.data.users import users
 from application.servers.buttons.buttons import return_button
+from application.data.states import Address
 
 address = CreateAddressSchema()
 
 def create_address_handlers(bot):
-    class Address(StatesGroup):
-        country = State()
-        region = State()
-        city = State()
-        street = State()
-        house_number = State()
-        quadrature_number = State()
-        postal_code = State()
 
     @bot.message_handler(commands=['add_address', 'добавить_адрес'])
     async def add_address(message):

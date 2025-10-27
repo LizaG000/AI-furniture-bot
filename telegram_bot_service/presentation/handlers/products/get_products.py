@@ -1,7 +1,7 @@
 from application.servers.get_addresses import get_addresses_list
-from application.schemas.users import users
-from application.schemas.shop import shop
-from application.schemas.states import Products
+from application.data.users import users
+from application.data.shop import shop
+from application.data.states import Products
 from application.servers.buttons.buttons import categories_button
 
 

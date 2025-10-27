@@ -3,17 +3,13 @@ from telebot.asyncio_storage import StateMemoryStorage
 from telebot.handler_backends import State, StatesGroup
 from application.schemas.UserSchemas import CreateUser
 from application.servers.validation import validation_str, validation_phone, validation_email
-from application.schemas.users import users
+from application.data.users import users
 from application.servers.buttons.buttons import return_button
 from telebot import types
+from application.data.states import Registration
 
 def registration_handlers(bot):
-    class Registration(StatesGroup):
-        first_name = State()
-        middle_name = State()
-        last_name = State()
-        phone = State()
-        email = State()
+
 
     @bot.message_handler(commands=['start'])
     async def main(message):

@@ -1,15 +1,13 @@
 import aiohttp
 import json
 from telebot import types
-from application.schemas.users import users
+from application.data.users import users
 from telebot.handler_backends import State, StatesGroup
 from application.servers.get_addresses import get_addresses_list
-from application.schemas.AddressSchemas import AddressSchema
 from application.servers.buttons.buttons import return_button
+from application.data.states import Address
 
 def delete_addresses_handlers(bot):
-    class Address(StatesGroup):
-        delete_address = State()
 
     @bot.message_handler(commands=['delete_address', 'удалить_адрес'])
     async def delete_address_number(message):
